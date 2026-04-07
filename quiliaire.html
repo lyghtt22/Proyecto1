@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuiliAire Pro - SIG Térmico</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        :root {
+            --bg-sidebar: #0f172a;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --text: #f1f5f9;
+            --border: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { display: flex; height: 100vh; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; }
+
+        #sidebar {
+            width: 380px;
+            background: var(--bg-sidebar);
+            color: var(--text);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 2000;
+        }
+
+        .header h1 { font-size: 1.2rem; font-weight: 800; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 10px; text-transform: uppercase; }
+        .header span { font-family: 'JetBrains Mono'; font-size: 0.7rem; opacity: 0.6; }
+
+        .card { background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
+        .label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; }
+        .value { font-size: 2rem; font-weight: 800; color: var(--danger); margin: 5px 0; }
+
+        #map { flex: 1; background: #e5e7eb; }
+
+        .form-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        select { 
+            background: #0f172a; color: white; border: 1px solid var(--border); 
+            padding: 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+        }
+
+        #log { flex: 1; overflow-y: auto; font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #94a3b8; border-top: 1px solid var(--border); padding-top: 10px; }
+        .log-entry { margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; line-height: 1.4; }
+        .log-entry b { color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 2px; }
+        .log-entry span { font-size: 0.65rem; color: #64748b; }
+
+        .info.legend { background: rgba(255, 255, 255, 0.9); padding: 10px; line-height: 18px; color: #333; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 0.75rem; }
+        .info.legend i { width: 14px; height: 14px; float: left; margin-right: 8px; opacity: 0.7; border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+<aside id="sidebar">
+    <div class="header">
+        <h1>QUILIAIRE_PRO</h1>
+        <span>SISTEMA DE MONITOREO GEOGRÁFICO</span>
+    </div>
+
+    <div class="card">
+        <p class="label">Métrica Actual MP2.5</p>
+        <div class="value">52.8 <small style="font-size: 0.8rem;">µg/m³</small></div>
+        <p style="font-size: 0.75rem; color: var(--danger);">[!] NIVEL: PRE-EMERGENCIA</p>
+    </div>
+
+    <div class="form-group">
+        <strong>[+] REGISTRO Y MAPA DE CALOR</strong>
+        <p style="font-size: 0.7rem; opacity: 0.8;">Los reportes generan zonas de calor térmico en tiempo real.</p>
+        
+        <select id="report-type">
+            <option value="Quema de Basura / Microbasural">Quema de Basura / Microbasural</option>
+            <option value="Humo Visible (Industria)">Humo Visible (Industria)</option>
+            <option value="Olor Ofensivo / Químico">Olor Ofensivo / Químico</option>
+            <option value="Congestión Camiones">Congestión Camiones (Vespucio)</option>
+        </select>
+    </div>
+
+    <div id="log">
+        <strong>LOG_REGISTROS_SITIO:</strong>
+        <div id="user-entries" style="margin-top: 10px;"></div>
+    </div>
+</aside>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script>
+    const map = L.map('map', { zoomControl: false }).setView([-33.362, -70.730], 14);
+    L.control.zoom({ position: 'topright' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
+
+    // 1. REGISTROS REALES PRECARGADOS (Datos Históricos de Quilicura)
+    const initialData = [
+        { lat: -33.355, lng: -70.725, type: "Humo Visible (Industria)", address: "Sector Data Center Google", time: "10:15 AM" },
+        { lat: -33.369, lng: -70.718, type: "Congestión Camiones", address: "Autopista Vespucio Norte", time: "08:45 AM" },
+        { lat: -33.375, lng: -70.742, type: "Olor Ofensivo / Químico", address: "Eje Panamericana Norte", time: "07:30 AM" },
+        { lat: -33.361, lng: -70.739, type: "Quema de Basura / Microbasural", address: "Calle San Luis", time: "06:12 AM" }
+    ];
+
+    // Mapa de calor inicial basado en registros precargados
+    let heatPoints = initialData.map(d => [d.lat, d.lng, 0.6]);
+    const heatLayer = L.heatLayer(heatPoints, {
+        radius: 35, blur: 15, maxZoom: 17,
+        gradient: {0.4: 'blue', 0.6: 'lime', 0.8: 'yellow', 1: 'red'}
+    }).addTo(map);
+
+    // Poblar el LOG lateral con los datos iniciales
+    const logDiv = document.getElementById('user-entries');
+    initialData.forEach(data => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `<b>${data.type}</b>${data.address}<br><span>[SITIO VALIDADO: ${data.time}]</span>`;
+        logDiv.appendChild(entry);
+        
+        // Agregar marcadores pequeños para los datos iniciales
+        L.circleMarker([data.lat, data.lng], { radius: 5, color: '#3b82f6', fillOpacity: 0.8 }).addTo(map)
+            .bindPopup(`<b>DATO HISTÓRICO:</b><br>${data.type}<br>${data.address}`);
+    });
+
+    // 2. FUNCIÓN PARA NUEVOS REPORTES
+    async function getStreetName(lat, lng) {
+        try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+            const data = await response.json();
+            return data.display_name.split(',')[0] + ", Quilicura";
+        } catch (error) { return "Quilicura, Chile"; }
+    }
+
+    map.on('click', async function(e) {
+        const type = document.getElementById('report-type').value;
+        const direccion = await getStreetName(e.latlng.lat, e.latlng.lng);
+
+        const confirmacion = confirm(`¿Confirmar registro SIG?\n\nINCIDENTE: ${type}\nUBICACIÓN: ${direccion}`);
+
+        if (confirmacion) {
+            L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                .bindPopup(`<b>REPORTE ACTUAL:</b><br>${type}<br>${direccion}`).openPopup();
+
+            heatLayer.addLatLng([e.latlng.lat, e.latlng.lng, 0.8]);
+
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            entry.innerHTML = `<b>${type}</b>${direccion}<br><span>[USUARIO REGISTRADO: ${now}]</span>`;
+            logDiv.prepend(entry);
+        }
+    });
+
+    // Leyenda Climática
+    const legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'info legend');
+        div.innerHTML += '<strong>Densidad Térmica</strong><br>';
+        div.innerHTML += '<i style="background: red"></i> Crítica<br><i style="background: yellow"></i> Alta<br><i style="background: lime"></i> Media';
+        return div;
+    };
+    legend.addTo(map);
+</script>
+</body>
+</html>
