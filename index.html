@@ -347,40 +347,6 @@
       color: #ffffff;
     }
 
-    .access-bubble {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      max-width: 380px;
-      border-radius: 18px;
-    }
-
-    .access-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: rgba(56,189,248,.14);
-      border: 1px solid rgba(56,189,248,.3);
-      flex-shrink: 0;
-      font-size: 1.2rem;
-    }
-
-    .access-body strong {
-      display: block;
-      font-size: .9rem;
-      color: #ffffff;
-      margin-bottom: 3px;
-    }
-
-    .access-body p {
-      margin: 0;
-      color: #d7e6fb;
-      font-size: .76rem;
-      line-height: 1.45;
-    }
-
     .log {
       max-height: 250px;
       overflow: auto;
@@ -713,6 +679,247 @@
       transform: scale(1.05);
     }
 
+    .layers-fab {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      z-index: 1400;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,.25);
+      background: rgba(9,17,31,.92);
+      color: #e5eefb;
+      font-size: 1.5rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 12px 32px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      display: grid;
+      place-items: center;
+    }
+
+    .layers-fab:hover {
+      transform: translateY(-1px);
+    }
+
+    .layers-bubble {
+      position: absolute;
+      bottom: 84px;
+      left: 22px;
+      z-index: 1400;
+      width: 280px;
+      max-width: calc(100vw - 40px);
+      background: rgba(9,17,31,.96);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,.28);
+      backdrop-filter: blur(10px);
+      padding: 14px;
+      display: none;
+    }
+
+    .layers-bubble.show {
+      display: block;
+    }
+
+    .layers-bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .layers-bubble-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .layers-bubble-title-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(56,189,248,.14);
+      border: 1px solid rgba(56,189,248,.25);
+      color: #bae6fd;
+      font-size: 1rem;
+    }
+
+    .layers-bubble-title strong {
+      display: block;
+      color: #ffffff;
+      font-size: .88rem;
+    }
+
+    .layers-bubble-title span {
+      display: block;
+      color: var(--muted);
+      font-size: .72rem;
+      margin-top: 2px;
+    }
+
+    .layers-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(255,255,255,.03);
+      color: #e5eefb;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .layers-group {
+      margin-top: 12px;
+    }
+
+    .layers-group-title {
+      font-size: .72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 8px;
+    }
+
+    .layer-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #dbeafe;
+      font-size: .82rem;
+      transition: .18s ease;
+    }
+
+    .layer-option:hover {
+      background: rgba(255,255,255,.04);
+    }
+
+    .layer-option input[type="radio"],
+    .layer-option input[type="checkbox"] {
+      accent-color: #c026d3;
+      transform: scale(1.08);
+    }
+
+    .layer-divider {
+      height: 1px;
+      background: rgba(148,163,184,.16);
+      margin: 12px 0;
+    }
+
+    .a11y-fab {
+      position: absolute;
+      bottom: 22px;
+      left: 86px;
+      z-index: 1400;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,.25);
+      background: rgba(9,17,31,.92);
+      color: #e5eefb;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 12px 32px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      display: grid;
+      place-items: center;
+    }
+
+    .a11y-fab:hover {
+      transform: translateY(-1px);
+    }
+
+    .a11y-bubble {
+      position: absolute;
+      bottom: 84px;
+      left: 86px;
+      z-index: 1400;
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      background: rgba(9,17,31,.96);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,.28);
+      backdrop-filter: blur(10px);
+      padding: 14px;
+      display: none;
+    }
+
+    .a11y-bubble.show {
+      display: block;
+    }
+
+    .a11y-bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .a11y-bubble-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .a11y-bubble-title-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(56,189,248,.14);
+      border: 1px solid rgba(56,189,248,.25);
+      color: #bae6fd;
+      font-size: 1rem;
+    }
+
+    .a11y-bubble-title strong {
+      display: block;
+      color: #ffffff;
+      font-size: .88rem;
+    }
+
+    .a11y-bubble-title span {
+      display: block;
+      color: var(--muted);
+      font-size: .72rem;
+      margin-top: 2px;
+    }
+
+    .a11y-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(255,255,255,.03);
+      color: #e5eefb;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .a11y-bubble-body p {
+      margin: 0;
+      color: #dbeafe;
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+
+    .a11y-bubble-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
     @media (max-width: 1024px) {
       .app {
         grid-template-columns: 1fr;
@@ -747,9 +954,34 @@
         right: 10px;
       }
 
-      .access-bubble,
       .map-title {
         max-width: 100%;
+      }
+      
+      .layers-fab {
+        left: 14px;
+        bottom: 14px;
+      }
+
+      .layers-bubble {
+        left: 14px;
+        bottom: 76px;
+        width: min(290px, calc(100vw - 28px));
+      }
+
+      .a11y-fab {
+        left: 76px;
+        bottom: 14px;
+      }
+
+      .a11y-bubble {
+        left: 14px;
+        bottom: 140px;
+        width: min(320px, calc(100vw - 28px));
+      }
+
+      .a11y-bubble-actions {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -806,7 +1038,7 @@
               <div class="search-card">
                 <div class="input-group">
                   <label for="addressInput">Dirección o lugar</label>
-                  <input id="addressInput" type="text" placeholder="Ej: Tocornal 400, Puente Alto" autocomplete="off" />
+                  <input id="addressInput" type="text" placeholder="Ingresa una dirección" autocomplete="off" />
                 </div>
 
                 <ul id="addressSuggestions" class="search-suggestions" aria-label="Sugerencias de direcciones"></ul>
@@ -869,7 +1101,7 @@
               <div class="grid-2">
                 <div class="input-group">
                   <label for="userName">Nombre o alias</label>
-                  <input id="userName" type="text" placeholder="Ej: Lesly / Vecino Norte" maxlength="40" />
+                  <input id="userName" type="text" placeholder="Ej: usuario / Vecino Norte" maxlength="40" />
                 </div>
                 <div class="input-group">
                   <label for="userSector">Comuna</label>
@@ -1025,22 +1257,109 @@
       <div class="topbar" aria-hidden="false">
         <div class="panel map-title">
           <strong>Proyecto 1 · monitor territorial de calidad del aire</strong>
-          <span class="tiny">Visualización comunal en tiempo real con red híbrida de sensores, capas estratégicas y reportes ciudadanos georreferenciados.</span>
-        </div>
-
-        <div class="panel access-bubble" aria-label="Burbuja de accesibilidad">
-          <div class="access-icon">♿</div>
-          <div class="access-body">
-            <strong>Accesibilidad</strong>
-            <p>
-              Esta plataforma incorpora navegación clara, contraste alto opcional, mensajes visibles,
-              panel desplegable, apoyo para búsqueda de direcciones y lectura comprensible del estado del sistema.
-            </p>
-          </div>
+          <span class="tiny">
+            Visualización comunal en tiempo real con red híbrida de sensores, capas estratégicas y reportes ciudadanos georreferenciados.
+          </span>
         </div>
       </div>
 
       <div id="map" role="application" aria-label="Mapa interactivo de la Región Metropolitana"></div>
+
+      <button id="layersFab" class="layers-fab" aria-label="Abrir capas del mapa" title="Capas del mapa">
+        ⋯
+      </button>
+
+      <button id="a11yFab" class="a11y-fab" aria-label="Abrir accesibilidad" title="Accesibilidad">
+        ♿
+      </button>
+
+      <div id="layersBubble" class="layers-bubble" aria-hidden="true">
+        <div class="layers-bubble-header">
+          <div class="layers-bubble-title">
+            <div class="layers-bubble-title-icon">🗺️</div>
+            <div>
+              <strong>Capas del mapa</strong>
+              <span>Base cartográfica y visores</span>
+            </div>
+          </div>
+          <button id="layersClose" class="layers-close" aria-label="Cerrar capas">✕</button>
+        </div>
+
+        <div class="layers-group">
+          <div class="layers-group-title">Mapa base</div>
+
+          <label class="layer-option">
+            <input type="radio" name="baseLayer" value="light">
+            <span>Claro</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="radio" name="baseLayer" value="voyager" checked>
+            <span>Navegación</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="radio" name="baseLayer" value="dark">
+            <span>Oscuro</span>
+          </label>
+        </div>
+
+        <div class="layer-divider"></div>
+
+        <div class="layers-group">
+          <div class="layers-group-title">Capas visibles</div>
+
+          <label class="layer-option">
+            <input type="checkbox" id="toggleReports" checked>
+            <span>Reportes ciudadanos</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="checkbox" id="toggleStations" checked>
+            <span>Nodos y estaciones</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="checkbox" id="toggleZones" checked>
+            <span>Zonas estratégicas</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="checkbox" id="toggleCommunes" checked>
+            <span>Referencias comunales</span>
+          </label>
+
+          <label class="layer-option">
+            <input type="checkbox" id="toggleHeatMap" checked>
+            <span>Mapa de calor</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="a11yBubble" class="a11y-bubble" aria-hidden="true">
+        <div class="a11y-bubble-header">
+          <div class="a11y-bubble-title">
+            <div class="a11y-bubble-title-icon">♿</div>
+            <div>
+              <strong>Accesibilidad</strong>
+              <span>Herramientas de apoyo visual y de navegación</span>
+            </div>
+          </div>
+          <button id="a11yClose" class="a11y-close" aria-label="Cerrar accesibilidad">✕</button>
+        </div>
+
+        <div class="a11y-bubble-body">
+          <p>
+            Esta plataforma incorpora navegación clara, contraste alto opcional, mensajes visibles,
+            panel desplegable, apoyo para búsqueda de direcciones y lectura comprensible del estado del sistema.
+          </p>
+
+          <div class="a11y-bubble-actions">
+            <button class="btn btn-secondary" id="bubbleHighContrastBtn">Alto contraste</button>
+            <button class="btn btn-secondary" id="bubbleCenterRMBtn">Ver Región Metropolitana</button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -1852,8 +2171,6 @@
       'Mapa de calor': heatLayer
     };
 
-    L.control.layers(baseMaps, overlayMaps, { collapsed: false, position: 'bottomleft' }).addTo(map);
-
     const legend = L.control({ position: 'bottomright' });
     legend.onAdd = function() {
       const div = L.DomUtil.create('div', 'info legend');
@@ -1885,6 +2202,127 @@
     loadInitialReports();
     updateGlobalStatus();
     map.fitBounds(rmBounds);
+
+    const layersFab = document.getElementById('layersFab');
+    const layersBubble = document.getElementById('layersBubble');
+    const layersClose = document.getElementById('layersClose');
+
+    const a11yFab = document.getElementById('a11yFab');
+    const a11yBubble = document.getElementById('a11yBubble');
+    const a11yClose = document.getElementById('a11yClose');
+
+    function openLayersBubble() {
+      layersBubble.classList.add('show');
+      layersBubble.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLayersBubble() {
+      layersBubble.classList.remove('show');
+      layersBubble.setAttribute('aria-hidden', 'true');
+    }
+
+    function openA11yBubble() {
+      a11yBubble.classList.add('show');
+      a11yBubble.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeA11yBubble() {
+      a11yBubble.classList.remove('show');
+      a11yBubble.setAttribute('aria-hidden', 'true');
+    }
+
+    layersFab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = layersBubble.classList.contains('show');
+      closeA11yBubble();
+      if (isOpen) {
+        closeLayersBubble();
+      } else {
+        openLayersBubble();
+      }
+    });
+
+    layersClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeLayersBubble();
+    });
+
+    a11yFab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = a11yBubble.classList.contains('show');
+      closeLayersBubble();
+      if (isOpen) {
+        closeA11yBubble();
+      } else {
+        openA11yBubble();
+      }
+    });
+
+    a11yClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeA11yBubble();
+    });
+
+    layersBubble.addEventListener('click', (e) => e.stopPropagation());
+    a11yBubble.addEventListener('click', (e) => e.stopPropagation());
+
+    document.addEventListener('click', () => {
+      closeLayersBubble();
+      closeA11yBubble();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLayersBubble();
+        closeA11yBubble();
+      }
+    });
+
+    document.querySelectorAll('input[name="baseLayer"]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        map.removeLayer(lightMap);
+        map.removeLayer(voyagerMap);
+        map.removeLayer(darkMap);
+
+        if (e.target.value === 'light') {
+          activeBaseMap = lightMap;
+        } else if (e.target.value === 'dark') {
+          activeBaseMap = darkMap;
+        } else {
+          activeBaseMap = voyagerMap;
+        }
+
+        activeBaseMap.addTo(map);
+      });
+    });
+
+    document.getElementById('toggleReports').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(reportMarkers) : map.removeLayer(reportMarkers);
+    });
+
+    document.getElementById('toggleStations').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(stationMarkers) : map.removeLayer(stationMarkers);
+    });
+
+    document.getElementById('toggleZones').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(industrialZones) : map.removeLayer(industrialZones);
+    });
+
+    document.getElementById('toggleCommunes').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(communeCircles) : map.removeLayer(communeCircles);
+    });
+
+    document.getElementById('toggleHeatMap').addEventListener('change', (e) => {
+      e.target.checked ? map.addLayer(heatLayer) : map.removeLayer(heatLayer);
+    });
+
+    document.getElementById('bubbleHighContrastBtn').addEventListener('click', () => {
+      document.getElementById('highContrastBtn').click();
+    });
+
+    document.getElementById('bubbleCenterRMBtn').addEventListener('click', () => {
+      document.getElementById('centerRM').click();
+    });
   </script>
 </body>
 </html>
